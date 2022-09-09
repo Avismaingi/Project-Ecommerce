@@ -40,7 +40,17 @@ class Order(models.Model):
     transaction_id = models.CharField(max_length=100, null=True)
 
     def __str__(self):
-        return self.transaction_id
+        return str(self.id)
+
+    # To remove shipping options if all products ordered are digital
+    @property
+    def shipping(self):
+        shipping = False
+        orderitems = self.orderitem_set.all()
+        for i in orderitems:
+            if i.product.digital == False:
+                shipping = True
+        return shipping
 
     # to get total cost all items(uses get_total from OrderItem and run it in loop and getting sum)
     @property

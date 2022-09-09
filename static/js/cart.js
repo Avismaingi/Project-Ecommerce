@@ -23,14 +23,16 @@ function updateUserOrder(productId, action) {
     fetch(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken, //To avoid error(also added in main.html) read documentation
         },
-        body: JSON.stringify({'productId': productId, 'action': action})
+        body: JSON.stringify({'productId': productId, 'action': action}) //Data sent to Views
     })
         .then((response) => {
-            return response.json();
+            return response.json()
         })
         .then((data) => {
             console.log('Data : ', data)
+            location.reload()
         })
 }
